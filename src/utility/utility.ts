@@ -1,3 +1,6 @@
+import { dirname, resolve, relative } from "path";
+import * as findup from "findup-sync";
+
 /**
  * 将符合jsx约定的组件名变为符合快应用约定的组件名
  * 如: TodoItem -> todo-item
@@ -60,4 +63,25 @@ export function isCssModule(import_src: string)
 export function combine(...snippets: Array<string>)
 {
     return snippets.join("\r\n\r\n");
+}
+
+/**
+ * 在快应用中，使用import标签引入ux文件，会在src属性填写被引入文件的路径
+ * 此函数根据在tsx中import的路径，计算出要在src属性中填的路径
+ * 方便之处在于，当使用npm复用组件时，避免写成src="../../node_modules/..."
+ * @param file_src 
+ * @param import_src 
+ */
+export function uxPath(file_src: string, import_src: string)
+{
+    if (import_src.startsWith("./") || import_src.startsWith("../"))
+    {
+        return import_src;
+    }
+    else
+    {
+        const from = dirname(file_src);
+        const to = resolve(findup("node_modules", { cwd: file_src }), import_src);
+        return relative(from, to).replace(/\\/g, "/");
+    }
 }

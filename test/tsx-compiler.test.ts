@@ -1,7 +1,7 @@
-import { resolve } from "path";
 import { renameComponent, extractStyleImport, compileTsx } from "../src";
-import { readFileSync, writeFileSync } from "fs";
 import { GetTestData, TestDataPath } from "./utility";
+import { writeFileSync } from "fs";
+import { resolve } from "path";
 
 /**
  * 测试翻译器tsx部分
