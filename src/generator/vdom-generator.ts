@@ -93,6 +93,6 @@ export function generateVdomFromJsxElement(jsx_element: string)
 export interface IVirtualDom
 {
     type: string;
-    props: { [index: string]: string | number },
-    children: Array<IVirtualDom | string>
+    props?: { [index: string]: string | number },
+    children?: Array<IVirtualDom | string>
 }

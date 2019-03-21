@@ -58,7 +58,7 @@ export function isCssModule(import_src: string)
 
 /**
  * 将各个代码片段组合成一整段代码
- * @param {string[]} snippets 一堆代码片段
+ * @param {string[]} snippets 一连串代码片段
  */
 export function combine(...snippets: Array<string>)
 {
