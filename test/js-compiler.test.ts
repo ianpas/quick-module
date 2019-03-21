@@ -1,9 +1,5 @@
 import { compileJs } from "../src";
-import { TestDataPath, GetTestData } from "./utility";
-
-/**
- * 测试翻译器js部分
- */
+import { TestDataPath, GetTestData } from "./utility/utility";
 
 test("compile jsx to js", () =>
 {

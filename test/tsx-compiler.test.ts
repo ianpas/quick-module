@@ -1,11 +1,5 @@
 import { renameComponent, extractStyleImport, compileTsx } from "../src";
-import { GetTestData, TestDataPath } from "./utility";
-import { writeFileSync } from "fs";
-import { resolve } from "path";
-
-/**
- * 测试翻译器tsx部分
- */
+import { GetTestData, TestDataPath } from "./utility/utility";
 
 test("rename component", () =>
 {

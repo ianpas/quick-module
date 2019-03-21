@@ -21,3 +21,5 @@
 <br>
 
 * 预处理jsx文件，将jsx中不符合快应用的写法，比如绑定回调函数的时候：onclick={this.handleClick} 翻译为 onclick="handleClick"。
+
+* 从预处理后的jsx代码中提取template函数的返回部分，并使用这个字符串生成其所描述的vdom。
