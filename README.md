@@ -33,3 +33,17 @@
 
   * 将import css和import ux部分的代码转换为快应用中引用样式和组件的标签。生成ux文件中的script标签，这个标签引用之前翻译生成的js文件。
   * 将这些代码片段拼接起来得到最终的ux文件。
+
+# 使用方法
+
+```
+Options:
+  -V, --version                     output the version number
+  -c, --compile <file_name>         compile tsx file
+  -w, --watch <file_name/dir_name>  watch and compile tsx file
+  -h, --help                        output usage information
+```
+
+# 示例
+
+这部分暂时没有写，之后会陆续添加。

@@ -62,7 +62,7 @@ export function extractJsxElementFromTemplate(preprocessed: string)
 export function generateVdomFromJsxElement(jsx_element: string)
 {
     const options = {
-        "plugins": [
+        plugins: [
             [
                 "@babel/plugin-transform-react-jsx",
                 {
@@ -70,7 +70,12 @@ export function generateVdomFromJsxElement(jsx_element: string)
                     "throwIfNamespace": false
                 }
             ]
-        ]
+        ],
+        /**
+         * 坑：如果不指定cwd，默认为"."，会出现找不到@babel/plugin-transform-react-jsx的错误
+         * @see{@link https://stackoverflow.com/questions/52808956/babel-core-transform-function-cannot-find-plugin}
+         */
+        cwd: __dirname
     };
     const jsx_transformed = transformSync(jsx_element, options).code;
     const pragma = `function createElement(type, props, ...children)

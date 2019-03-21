@@ -1,10 +1,17 @@
 {
   "name": "quick-module",
   "version": "0.0.1",
-  "description": "module solution for quickapp",
-  "main": "main.js",
+  "description": "module solution for quickapp, with typescript",
+  "main": "./build/index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "build": "gulp build"
+  },
+  "files": [
+    "build"
+  ],
+  "bin": {
+    "qmc": "./build/main.js"
   },
   "author": "ianpas",
   "license": "MIT",
@@ -12,6 +19,7 @@
     "@babel/core": "^7.3.4",
     "@babel/plugin-transform-react-jsx": "^7.3.0",
     "@babel/plugin-transform-typescript": "^7.3.2",
+    "commander": "^2.19.0",
     "findup-sync": "^3.0.0",
     "node-watch": "^0.6.0",
     "require-from-string": "^2.0.2",
@@ -20,6 +28,8 @@
   "devDependencies": {
     "@types/jest": "^24.0.11",
     "@types/node": "^11.11.3",
+    "gulp": "^4.0.0",
+    "gulp-typescript": "^5.0.1",
     "jest": "^24.5.0",
     "ts-jest": "^24.0.0",
     "typescript": "^3.3.3333"
