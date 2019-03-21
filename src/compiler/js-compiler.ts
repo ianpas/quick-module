@@ -18,7 +18,7 @@ type JsCompiledResult = { js_code: string, import_info: ImportInfo };
 /**
 * 从jsx文件提取js，主要是移除template方法和最终不需要的import代码
 * @param {string} src 提取目标，jsx文件的绝对路径
-* @returns \{JsCompiledResult\} 翻译后除了js代码，还返回引入ux，样式相关的信息
+* @returns {JsCompiledResult} 翻译后除了js代码，还返回引入ux，样式相关的信息
 */
 export function compileJs(src: string): JsCompiledResult
 {

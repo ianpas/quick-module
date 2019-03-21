@@ -3,8 +3,8 @@ import * as findup from "findup-sync";
 
 /**
  * 将符合jsx约定的组件名变为符合快应用约定的组件名
- * 如: TodoItem -> todo-item
  * @param {string} name 组件名
+ * @returns {string} 如: TodoItem -> todo-item
  */
 export function toDashed(name: string)
 {
@@ -13,8 +13,8 @@ export function toDashed(name: string)
 
 /**
  * 将符合jsx约定的组件名变为符合快应用约定的组件名的中间步骤
- * 如: TodoItem -> todo_item
  * @param {string} import_src 引入路径
+ * @returns {string} 如: TodoItem -> todo_item
  */
 export function toUnderscored(name: string)
 {

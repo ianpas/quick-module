@@ -18,3 +18,6 @@
    * 在import部分处理组件的名字，将组件名，比如TodoItem变为todo_item，因为快应用中组件名约定是类型todo-item。这里不使用连字符，而是使用下划线，是因为如果使用连字符，那么它就不是合法的标识符，生成的jsx就会有语法错误。
 <br>
 * 从jsx文件中提取js代码，主要是移除template方法，还有就是删除import css和import ux的代码，因为js中不需要这些import，这些import是用于生成ux文件中的import标签（引入ux组件）和style标签（引入样式文件）的。
+<br>
+
+* 预处理jsx文件，将jsx中不符合快应用的写法，比如绑定回调函数的时候：onclick={this.handleClick} 翻译为 onclick="handleClick"。

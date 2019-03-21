@@ -15,12 +15,13 @@ import { isComponent, toDashed, isUxModule, toUnderscored, isCssModule, combine 
 /**
  * 将tsx文件翻译为jsx，主要是处理组件命名
  * @param {string} src 需要翻译的tsx文件的绝对路径
+ * @returns {string} 翻译得到的jsx代码
  */
 export function compileTsx(src: string)
 {
     const main_snippet = renameComponent(src);
-    const style_import_snippet = extractStyleImport(src);
-    const jsx_code = combine(...style_import_snippet, main_snippet);
+    const style_import_snippets = extractStyleImport(src);
+    const jsx_code = combine(...style_import_snippets, main_snippet);
     return jsx_code;
 }
 
@@ -28,12 +29,13 @@ export function compileTsx(src: string)
 /**
  * 处理tsx文件中的组件命名
  * @param {string} src 需要翻译的tsx文件的绝对路径
+ * @returns {string} 处理了组件命名后得到的tsx代码
  */
 export function renameComponent(src: string)
 {
     /**
      * 使用typescript编译器的API将tsx代码翻译为jsx
-     * 注意：翻译中保留了jsx的写法：ts.JsxEmit.Preserve
+     * @see {@link https://github.com/Microsoft/TypeScript/wiki/Using-the-Compiler-API}
      */
     const tsx_code = readFileSync(src, "utf8");
     const jsx_code = ts.transpileModule(tsx_code, {
@@ -46,12 +48,13 @@ export function renameComponent(src: string)
 
     /**
      * 使用babel的parser, generator和traverse
+     * @see {@link https://github.com/jamiebuilds/babel-handbook/blob/master/translations/en/plugin-handbook.md#toc-introduction}
      * 在两个地方对组件名进行处理，import部分和jsx部分
      */
     const ast = parse(jsx_code, { sourceType: "module", plugins: ["jsx"] });
 
     /**
-     * 可视化ast推荐的网站：@see {@link https://astexplorer.net/ }
+     * 方便查看ast的在线工具：@see {@link https://astexplorer.net/ }
      */
     traverse(ast, {
         enter(path)
@@ -83,6 +86,7 @@ export function renameComponent(src: string)
 /**
  * 提取tsx文件中import css的部分，因为typescript把tsx翻译为jsx后，会删除声明了但没有用到的import代码
  * @param {string} src 需要翻译的tsx文件的绝对路径
+ * @returns {string[]} 数组元素是每条import css的代码
  */
 export function extractStyleImport(src: string)
 {
