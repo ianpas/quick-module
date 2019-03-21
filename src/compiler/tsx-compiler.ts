@@ -9,10 +9,6 @@ import { parse } from "@babel/parser";
 import { isComponent, toDashed, isUxModule, toUnderscored, isCssModule, combine } from "../utility/utility";
 
 /**
- * @module 翻译器tsx部分
- */
-
-/**
  * 将tsx文件翻译为jsx，主要是处理组件命名
  * @param {string} src 需要翻译的tsx文件的绝对路径
  * @returns {string} 翻译得到的jsx代码

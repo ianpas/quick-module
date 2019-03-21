@@ -6,14 +6,9 @@ import { parse } from "@babel/parser";
 
 import { isUxModule, isCssModule, uxPath } from "../utility/utility";
 
-/**
- * @module 翻译器js部分
- */
-
-
-type ModuleInfo = { src: string, name: string };
-type ImportInfo = { ux: Array<ModuleInfo>, style: Array<ModuleInfo> };
-type JsCompiledResult = { js_code: string, import_info: ImportInfo };
+export type ModuleInfo = { src: string, name: string };
+export type ImportInfo = { ux: Array<ModuleInfo>, style: Array<ModuleInfo> };
+export type JsCompiledResult = { js_code: string, import_info: ImportInfo };
 
 /**
 * 从jsx文件提取js，主要是移除template方法和最终不需要的import代码

@@ -2,10 +2,6 @@ import { compileTsx } from "./tsx-compiler";
 import { writeFileSync } from "fs";
 
 /**
- * @module 翻译器入口模块
- */
-
-/**
  * 翻译tsx文件，输出等价的ux和js文件
  * @param {string} src 需要翻译的文件的绝对路径
  */

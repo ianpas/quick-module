@@ -20,7 +20,7 @@ export function generateTemplate(vdom: IVirtualDom)
  * @param {IVirtualDom} vdom 比如：{ type: 'text', props: {}, children: ['hi'] }
  * @returns {string} 快应用中的标签，比如`<text>hi</text>`
  */
-function generateTag(vdom: IVirtualDom)
+export function generateTag(vdom: IVirtualDom)
 {
     const name = vdom.type;
     const props = generateProps(vdom.props);

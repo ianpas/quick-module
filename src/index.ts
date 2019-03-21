@@ -6,3 +6,4 @@ export * from "./preprocessor/preprocessor";
 
 export * from "./generator/vdom-generator";
 export * from "./generator/template-generator";
+export * from "./generator/reference-generator";
