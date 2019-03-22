@@ -1,7 +1,10 @@
-const Main = {
+class Main {
   handleInput(e) {
     console.log(arguments);
   }
 
-};
-export default Main;
+}
+
+const __INSTANCE__ = new Main();
+
+export default __INSTANCE__;

@@ -14,14 +14,17 @@ test("generate vdom from JSXElement MemberExpression", () =>
 
 test("generate vdom from jsx code", () =>
 {
-    const vdom = generateVdom(`export default {
-        template()
-        {
-            return (
-                <text>hi</text>
-            );
+    const vdom = generateVdom(`
+        class Test {
+            template()
+            {
+                return (
+                    <text>hi</text>
+                );
+            }
         }
-    }`);
+        export default Test`
+    );
 
     expect(vdom).toEqual({ type: 'text', props: {}, children: ['hi'] });
 })

@@ -4,6 +4,7 @@ import generate from "@babel/generator";
 import traverse from "@babel/traverse";
 
 import * as requireFromString from "require-from-string";
+import { Identifier } from "@babel/types";
 
 /**
  * 读入预处理后的jsx代码，生成template函数所描述的vdom
@@ -19,16 +20,8 @@ export function generateVdom(preprocessed: string)
 /**
  * 读入预处理后的jsx代码，将template函数返回部分的代码作为字符串返回。
  * 
- * @param {string} preprocessed 预处理后的jsx代码，比如
-   export default {
-   template()
-        {
-            return (
-                <text>hi</text>
-            );
-        }
-    }
- * @returns {string} template函数中返回部分的jsx对象代码，比如"<text>hi</text>"
+ * @param {string} preprocessed 预处理后的jsx代码
+ * @returns {string} template函数中返回部分的jsx对象代码
  * 
  */
 export function extractJsxElementFromTemplate(preprocessed: string)
@@ -43,7 +36,7 @@ export function extractJsxElementFromTemplate(preprocessed: string)
             if (path.isReturnStatement())
             {
                 const method_root = path.parentPath.parent;
-                if (method_root.type === "ObjectMethod" && method_root.key.name === "template")
+                if (method_root.type === "ClassMethod" && (method_root.key as Identifier).name === "template")
                 {
                     jsx_element = generate(path.node.argument).code;
                 }

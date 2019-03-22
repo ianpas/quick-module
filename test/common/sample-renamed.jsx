@@ -1,5 +1,6 @@
 import todo_item from "../todo-item/todo-item.ux";
-const Main = {
+
+class Main {
   template() {
     return <div class="main-page">
                 <div class="input">
@@ -7,11 +8,12 @@ const Main = {
                     <todo-item></todo-item>
                 </div>
             </div>;
-  },
+  }
 
   handleInput(e) {
     console.log(arguments);
   }
 
-};
+}
+
 export default Main;

@@ -9,8 +9,8 @@ export interface IMain extends QuickApp.IComponent
     handleInput(e: QuickApp.ClickEvent): void;
 }
 
-const Main: IMain = {
-
+class Main implements IMain
+{
     template(this: IMain)
     {
         return (
@@ -21,7 +21,8 @@ const Main: IMain = {
                 </div>
             </div>
         );
-    },
+    }
+    
     handleInput(e: QuickApp.ClickEvent)
     {
         console.log(arguments);

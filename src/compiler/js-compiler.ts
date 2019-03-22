@@ -5,6 +5,7 @@ import generate from "@babel/generator";
 import { parse } from "@babel/parser";
 
 import { isUxModule, isCssModule, uxPath } from "../utility/utility";
+import { stringLiteral, Identifier, variableDeclaration, variableDeclarator, identifier, newExpression } from "@babel/types";
 
 export type ModuleInfo = { src: string, name: string };
 export type ImportInfo = { ux: Array<ModuleInfo>, style: Array<ModuleInfo> };
@@ -29,9 +30,22 @@ export function compileJs(src: string): JsCompiledResult
     traverse(ast, {
         enter(path)
         {
-            if (path.isObjectMethod() && path.node.key.name === "template")
+            if (path.isClassMethod() && (path.node.key as Identifier).name === "template")
             {
                 path.remove();
+            }
+            else if (path.isExportDefaultDeclaration())
+            {
+                const class_name = (path.node.declaration as Identifier).name;
+                const instance_name = "__INSTANCE__";
+                (path.node.declaration as Identifier).name = instance_name;
+
+                path.insertBefore(variableDeclaration("const", [
+                    variableDeclarator(
+                        identifier(instance_name),
+                        newExpression(identifier(class_name), [])
+                    )
+                ]));
             }
             else if (path.isImportDeclaration())
             {

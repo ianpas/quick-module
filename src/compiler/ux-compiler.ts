@@ -17,7 +17,7 @@ export function compileUx(src: string, import_info: ImportInfo)
 {
     //
     const preprocessed = preprocess(readFileSync(src, "utf8"));
-
+    
     //
     const template_snippet = compileTemplate({
         preprocessed, ux_imported: import_info.ux
