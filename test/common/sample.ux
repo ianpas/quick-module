@@ -3,7 +3,7 @@
 <template>
     <div class="main-page">
         <div class="input">
-            <input class="input-text" type="checkbox" onclick="handleInput">
+            <input class="input-text" type="checkbox" onclick="{{handleInput}}">
             </input>
             <todo-item>
             </todo-item>

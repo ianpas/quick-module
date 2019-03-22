@@ -1,6 +1,6 @@
 import { ModuleInfo } from "../compiler/js-compiler";
 import { generateTag } from "./template-generator";
-import { basename } from "path";
+import { basename, extname } from "path";
 
 /**
  * 生成快应用中引入组件的import标签
@@ -44,13 +44,18 @@ export function generateStyleRef(imported: ModuleInfo[])
      */
     if (imported.length === 1)
     {
-
         const style_info = imported[0];
+        const suffix = extname(style_info.src).slice(1);
+
+        const props: { src: string, lang?: string } = { src: style_info.src };
+        if (suffix !== "css")
+        {
+            props.lang = suffix;
+        }
+
         const style_tag = generateTag({
             type: "style",
-            props: {
-                src: style_info.src
-            }
+            props
         });
         return style_tag;
     }

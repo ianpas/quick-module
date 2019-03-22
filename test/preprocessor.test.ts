@@ -5,11 +5,19 @@ function assert({ input, preprocessed }: { input: string, preprocessed: string }
     expect(preprocess(input)).toEqual(preprocessed);
 }
 
-test("JSXAttribute MemberExpression", () =>
+test("JSXAttribute MemberExpression: this.method", () =>
 {
     assert({
         input: `<input onChange={this.toggleTodo}></input>`,
-        preprocessed: `<input onChange="toggleTodo"></input>;`
+        preprocessed: `<input onChange="{{toggleTodo}}"></input>;`
+    })
+})
+
+test("JSXAttribute MemberExpression: this.data-model.member", () =>
+{
+    assert({
+        input: `<input onChange={this.props.list}></input>`,
+        preprocessed: `<input onChange="{{list}}"></input>;`
     })
 })
 

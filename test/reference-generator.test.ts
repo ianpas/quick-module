@@ -19,3 +19,10 @@ test("generate style ref", () =>
     const ref = generateStyleRef(imported);
     expect(ref).toEqual(`<style src="./main.css"></style>`);
 })
+
+test("generate style ref, less", () =>
+{
+    const imported = [{ src: './main.less', name: 'styles' }];
+    const ref = generateStyleRef(imported);
+    expect(ref).toEqual(`<style src="./main.less" lang="less"></style>`);
+})

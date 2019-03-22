@@ -35,11 +35,19 @@ export function preprocess(jsx_code: string)
             {
                 const expression_type = path.node.expression.type;
                 const code = generate(path.node).code;
-                const expression = code.slice(1, code.length - 1).replace("this.", "");
+                let expression = code.slice(1, code.length - 1).replace("this.", "");
+                if (isAccessingFromDataModel(expression))
+                {
+                    expression = expression.replace(`${getFirstObjectName(expression)}.`,"");
+                }
 
                 if (expression_type === "MemberExpression" && path.parent.type === "JSXAttribute")
                 {
-                    path.replaceWith(stringLiteral(expression));
+                    /**
+                     * 回调函数的话，{{}}可以省略，这样可以一致处理使用this访问数据和函数
+                     * @see {@link https://doc.quickapp.cn/framework/template.html?h=%E7%9C%81%E7%95%A5}
+                     */
+                    path.replaceWith(stringLiteral(`${"{{"}${expression}${"}}"}`));
                 }
                 else if (expression_type === "CallExpression" && path.parent.type === "JSXAttribute")
                 {
@@ -55,4 +63,16 @@ export function preprocess(jsx_code: string)
 
     const preprocessed = generate(ast).code;
     return preprocessed;
+}
+
+function isAccessingFromDataModel(expression:string): boolean
+{
+    const data_models = ["data","props","private","protected","public"];
+    const obj = getFirstObjectName(expression);
+    return data_models.includes(obj);
+}
+
+function getFirstObjectName(expression): string
+{
+    return expression.split(".")[0];
 }
