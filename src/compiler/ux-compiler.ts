@@ -10,20 +10,19 @@ import { combine } from "../utility/utility";
 import { preprocess } from "../preprocessor/preprocessor";
 
 /**
- * 从预处理后的jsx代码，翻译得到ux文件中的代码
- * @param {string} src 预处理后的jsx文件的绝对路径 
+ * 从jsx代码，翻译得到ux文件中的代码
  */
-export function compileToUx(src: string, import_info: ImportInfo)
+export function compileToUx(jsx_code: string, tsx_src: string, import_info: ImportInfo)
 {
     //
-    const preprocessed = preprocess(readFileSync(src, "utf8"));
-    
+    const preprocessed = preprocess(jsx_code);
+
     //
     const template_snippet = compileTemplate({
         preprocessed, ux_imported: import_info.ux
     });
 
-    const script_snippet = generateJsRef(src);
+    const script_snippet = generateJsRef(tsx_src);
     const style_snippet = generateStyleRef(import_info.style);
 
     return combine(template_snippet, script_snippet, style_snippet);

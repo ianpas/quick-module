@@ -1,5 +1,3 @@
-import { readFileSync } from "fs";
-
 import traverse from "@babel/traverse";
 import generate from "@babel/generator";
 import { parse } from "@babel/parser";
@@ -12,11 +10,11 @@ export type ImportInfo = { ux: Array<ModuleInfo>, style: Array<ModuleInfo> };
 export type JsCompiledResult = { js_code: string, import_info: ImportInfo };
 
 /**
-* 从jsx文件提取js，主要是移除template方法和最终不需要的import代码
-* @param {string} src 提取目标，jsx文件的绝对路径
+* 从jsx代码提取js，主要是移除template方法和最终不需要的import代码
+* @param {string} src 提取目标，jsx代码
 * @returns {JsCompiledResult} 翻译后除了js代码，还返回引入ux，样式相关的信息
 */
-export function compileToJs(src: string): JsCompiledResult
+export function compileToJs(jsx_code: string, tsx_src:string): JsCompiledResult
 {
 
     //
@@ -24,7 +22,6 @@ export function compileToJs(src: string): JsCompiledResult
     const style_imported: Array<ModuleInfo> = [];
 
     //
-    const jsx_code = readFileSync(src, "utf8");
     const ast = parse(jsx_code, { sourceType: "module", plugins: ["jsx"] });
 
     traverse(ast, {
@@ -49,14 +46,14 @@ export function compileToJs(src: string): JsCompiledResult
             }
             else if (path.isImportDeclaration())
             {
-                const file_src = src;
+                const file_src = tsx_src;
                 const import_src = path.node.source.value;
 
                 if (isUxModule(import_src))
                 {
                     ux_imported.push({
-                        src: uxPath(file_src, import_src),
-                        name: path.node.specifiers[0].local.name.replace(/_/g, "-").replace(".tsx",".ux")
+                        src: uxPath(file_src, import_src).replace(".tsx",".ux"),
+                        name: path.node.specifiers[0].local.name.replace(/_/g, "-")
                     });
                     path.remove();
                 }

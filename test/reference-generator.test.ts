@@ -9,7 +9,7 @@ test("generate ux refs", () =>
 
 test("generate js ref", () =>
 {
-    const ref = generateJsRef("./todo-item/todo-item.jsx");
+    const ref = generateJsRef("./todo-item/todo-item.tsx");
     expect(ref).toEqual(`<script>\r\n    export { default } from "./todo-item.js";\r\n</script>`);
 })
 

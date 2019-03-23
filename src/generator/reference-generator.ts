@@ -19,12 +19,12 @@ export function generateUxRefs(imported: Array<ModuleInfo>)
 
 /**
  * 生成快应用中引用js的标签
- * @param {string} jsx_src jsx文件的路径
+ * @param {string} tsx_src tsx文件的路径
  * @returns {string} 将这个标签作为字符串返回，用于拼接最后的ux文件
  */
-export function generateJsRef(jsx_src: string)
+export function generateJsRef(tsx_src: string)
 {
-    const script_name = basename(jsx_src).replace("jsx", "js");
+    const script_name = basename(tsx_src).replace("tsx", "js");
     const script_tag = generateTag({
         type: "script",
         children: [`\r\n    export { default } from "./${script_name}";\r\n`]

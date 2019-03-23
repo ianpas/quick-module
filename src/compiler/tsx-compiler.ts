@@ -6,7 +6,7 @@ import traverse from "@babel/traverse";
 import generate from "@babel/generator";
 import { parse } from "@babel/parser";
 
-import { isComponent, toDashed, isUxModule, toUnderscored, isCssModule, combine } from "../utility/utility";
+import { toDashed, isUxModule, toUnderscored, isCssModule, combine } from "../utility/utility";
 import { Identifier, ObjectExpression, ObjectProperty, objectExpression, objectProperty, identifier } from "@babel/types";
 
 /**
@@ -125,11 +125,11 @@ export function preprocessTsx(src: string)
             }
             else if (path.isJSXIdentifier())
             {
+                /**
+                 * 一致处理props传参和组件名
+                 */
                 const tag_name = generate(path.node).code;
-                if (isComponent(tag_name))
-                {
-                    path.node.name = toDashed(tag_name);
-                }
+                path.node.name = toDashed(tag_name);
             }
         }
     });

@@ -2,13 +2,13 @@ import { dirname, resolve, relative } from "path";
 import * as findup from "findup-sync";
 
 /**
- * 将符合jsx约定的组件名变为符合快应用约定的组件名
- * @param {string} name 组件名
- * @returns {string} 如: TodoItem -> todo-item
+ * @see {@link https://gist.github.com/youssman/745578062609e8acac9f#gistcomment-2304728}
+ * @param {string} str 
+ * @returns {string} 
  */
-export function toDashed(name: string)
+export function toDashed(str: string)
 {
-    return name.replace(/[A-Z]/g, "-$&").toLowerCase().slice(1)
+    return str.replace(/([a-zA-Z])(?=[A-Z])/g, '$1-').toLowerCase();
 }
 
 /**
@@ -19,15 +19,6 @@ export function toDashed(name: string)
 export function toUnderscored(name: string)
 {
     return name.replace(/[A-Z]/g, "_$&").toLowerCase().slice(1)
-}
-
-/**
- * 根据标签名判断是否为自定义组件，根据jsx约定，首字母大写的标签代表自定义的组件
- * @param {string} tag_name 标签名
- */
-export function isComponent(tag_name: string)
-{
-    return /^[A-Z]/.test(tag_name);
 }
 
 /**
