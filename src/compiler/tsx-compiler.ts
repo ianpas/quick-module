@@ -6,8 +6,8 @@ import traverse from "@babel/traverse";
 import generate from "@babel/generator";
 import { parse } from "@babel/parser";
 
-import { toDashed, isUxModule, toUnderscored, isCssModule, combine, isDataModelKeyword } from "../utility/utility";
-import { Identifier, ObjectExpression, ObjectProperty, objectExpression, objectProperty, identifier, MemberExpression } from "@babel/types";
+import { toDashed, isUxModule, toUnderscored, isCssModule, combine, isDataModelKeyword, removeDataModelKeyword } from "../utility/utility";
+import { Identifier, ObjectExpression, ObjectProperty, objectExpression, objectProperty, identifier, MemberExpression, ArrowFunctionExpression, jsxElement, jsxOpeningElement, jsxIdentifier, jsxClosingElement, JSXElement, jsxExpressionContainer, stringLiteral, jsxAttribute } from "@babel/types";
 
 /**
  * 将tsx文件翻译为jsx
@@ -54,15 +54,13 @@ export function extractStyleImport(src: string)
 }
 
 /**
- * 将tsx文件翻译为jsx，主要是处理props
+ * 将tsx文件翻译为jsx
  * @param {string} src 需要翻译的tsx文件的绝对路径
  * @returns {string} 翻译得到的jsx代码
  */
 export function preprocessTsx(src: string)
 {
-    /**
-     * 首先处理props，把类型检测放到编译时。处理后仍为tsx代码
-     */
+
     const tsx_code = readFileSync(src, "utf8");
     const tsx_ast = parse(tsx_code, { sourceType: "module", plugins: ["typescript", "jsx", "classProperties"] });
 
@@ -70,6 +68,40 @@ export function preprocessTsx(src: string)
     traverse(tsx_ast, {
         enter(path)
         {
+            if (path.isJSXExpressionContainer())
+            {
+                const expression = path.node.expression;
+                if (expression.type === "CallExpression" && (expression.callee as MemberExpression).property.name === "map")
+                {
+                    //
+                    const raw_callee = generate((expression.callee as MemberExpression).object).code;
+                    const callee = removeDataModelKeyword(raw_callee);
+
+                    //
+                    const arrow_function = expression.arguments[0] as ArrowFunctionExpression;
+                    const [value_param, index_param] = arrow_function.params.map(param => (param as Identifier).name);
+                    const for_directive = `(${index_param},${value_param}) in ${callee}`;
+
+                    path.replaceWith(jsxElement(
+                        jsxOpeningElement(jsxIdentifier("block"), [jsxAttribute(jsxIdentifier("for"), stringLiteral(for_directive))]),
+                        jsxClosingElement(jsxIdentifier("block")),
+                        [arrow_function.body as JSXElement], false
+                    ));
+                }
+                else if (expression.type === "Identifier")
+                {
+                    path.replaceWith(jsxExpressionContainer(stringLiteral(`${"{{"}${generate(expression).code}${"}}"}`)));
+                }
+            }
+        }
+    });
+
+    traverse(tsx_ast, {
+        enter(path)
+        {
+            /**
+             * 处理props，把类型检测放到编译时。处理后仍为tsx代码
+             */
             if (path.isClassProperty() && (path.node.key as Identifier).name === "props")
             {
                 const obj_expression = path.node.value as ObjectExpression;

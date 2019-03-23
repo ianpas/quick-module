@@ -1,0 +1,23 @@
+
+
+<template>
+    <div class="main-page">
+        <div class="city" if="false">
+            <block for="(undefined,city) in cities">
+                <block>
+                    <text>城市：{{city.name}}</text>
+                    <block if="{{city.showSpots}}">
+                        <block for="(undefined,spot) in city.spots">
+                            <text if="{{spot}}">景点：{{spot.name}}</text>
+                        </block>
+                    </block>
+                </block>
+            </block>
+        </div>
+    </div>
+</template>
+
+<script>
+    export { default } from "./for.js";
+</script>
+

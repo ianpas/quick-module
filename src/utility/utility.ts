@@ -82,3 +82,13 @@ export function isDataModelKeyword(name: string)
     const keywords = new Set(["data", "props", "private", "protected", "public"]);
     return keywords.has(name);
 }
+
+export function removeDataModelKeyword(name: string)
+{
+    const keywords = ["this.data.","this.props.","this.private.","this.protected.","this.public."];
+    for(const keyword of keywords)
+    {
+        name = name.replace(keyword,"");
+    }
+    return name;
+}
