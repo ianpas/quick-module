@@ -16,7 +16,7 @@ export type JsCompiledResult = { js_code: string, import_info: ImportInfo };
 * @param {string} src 提取目标，jsx文件的绝对路径
 * @returns {JsCompiledResult} 翻译后除了js代码，还返回引入ux，样式相关的信息
 */
-export function compileJs(src: string): JsCompiledResult
+export function compileToJs(src: string): JsCompiledResult
 {
 
     //
@@ -56,7 +56,7 @@ export function compileJs(src: string): JsCompiledResult
                 {
                     ux_imported.push({
                         src: uxPath(file_src, import_src),
-                        name: path.node.specifiers[0].local.name.replace(/_/g, "-")
+                        name: path.node.specifiers[0].local.name.replace(/_/g, "-").replace(".tsx",".ux")
                     });
                     path.remove();
                 }

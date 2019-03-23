@@ -1,0 +1,18 @@
+<import src="../todo-item/todo-item.tsx" name="todo-item"></import>
+
+<template>
+    <div class="main-page">
+        <div class="input">
+            <input class="input-text" type="checkbox" onclick="{{handleInput}}">
+            </input>
+            <todo-item>
+            </todo-item>
+        </div>
+    </div>
+</template>
+
+<script>
+    export { default } from "./sample.js";
+</script>
+
+<style src="./main.css"></style>

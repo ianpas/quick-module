@@ -1,12 +1,7 @@
-import { renameComponent, extractStyleImport, compileTsx } from "../src";
+import { extractStyleImport, compileTsx, preprocessTsx } from "../src";
 import { GetTestData, TestDataPath } from "./utility/utility";
-
-test("rename component", () =>
-{
-    const renamed = renameComponent(TestDataPath("common/sample.tsx"));
-    const to_compare = GetTestData("common/sample-renamed.jsx");
-    expect(renamed).toEqual(to_compare);
-})
+import { writeFileSync } from "fs";
+import { resolve } from "path";
 
 test("extract style import", () =>
 {
@@ -19,4 +14,10 @@ test("compile tsx to jsx", () =>
     const compiled = compileTsx(TestDataPath("common/sample.tsx"));
     const to_compare = GetTestData("common/sample.jsx");
     expect(compiled).toEqual(to_compare);
+})
+
+test("transform props", () =>
+{
+    const transformed = preprocessTsx(TestDataPath("common/props.tsx"));
+    expect(transformed).toEqual(GetTestData("common/props.jsx"));
 })

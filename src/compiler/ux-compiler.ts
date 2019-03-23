@@ -13,7 +13,7 @@ import { preprocess } from "../preprocessor/preprocessor";
  * 从预处理后的jsx代码，翻译得到ux文件中的代码
  * @param {string} src 预处理后的jsx文件的绝对路径 
  */
-export function compileUx(src: string, import_info: ImportInfo)
+export function compileToUx(src: string, import_info: ImportInfo)
 {
     //
     const preprocessed = preprocess(readFileSync(src, "utf8"));

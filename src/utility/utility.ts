@@ -31,12 +31,12 @@ export function isComponent(tag_name: string)
 }
 
 /**
- * 从import中的路径来判断要引入的模块是否为ux文件
+ * 从import中的路径来判断要引入的模块是否为ux模块
  * @param {string} import_src 引入路径
  */
 export function isUxModule(import_src: string)
 {
-    return import_src.endsWith(".ux");
+    return import_src.endsWith(".tsx");
 }
 
 /**

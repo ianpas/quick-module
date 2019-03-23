@@ -10,17 +10,6 @@ import { jsxExpressionContainer, stringLiteral } from "@babel/types";
  */
 
 /**
-* @param {string} src 需要预处理的jsx文件的绝对路径
-* @returns {string} 预处理后的jsx代码
-*/
-export function preprocessFile(src: string)
-{
-    const jsx_code = readFileSync(src, "utf8");
-    const preprocessed = preprocess(jsx_code);
-    return preprocessed;
-}
-
-/**
 * @param {string} jsx_code 需要预处理的jsx文件代码
 * @returns {string} 预处理后的jsx代码
 */

@@ -1,12 +1,33 @@
 import { TestDataPath, GetTestData } from "./utility/utility";
-import { compileUx } from "../src";
+import { compileToUx, compileTemplate } from "../src";
 
 test("generate ux file code", () =>
 {
-    const ux = compileUx(TestDataPath("common/sample.jsx"), {
+    const ux = compileToUx(TestDataPath("common/sample.jsx"), {
         ux: [{ src: '../todo-item/todo-item.ux', name: 'todo-item' }],
         style: [{ src: './main.css', name: 'styles' }]
     });
 
     expect(ux).toEqual(GetTestData("common/sample.ux"));
+})
+
+test("compile template", () =>
+{
+    const preprocessed = `
+        class Test {
+            template() {
+                return <div class="main-page">
+                            hi
+                        </div>;
+            }
+        }
+        export default Test;
+    `;
+    const template = compileTemplate({
+        preprocessed,
+        ux_imported: [{ src: '../todo-item/todo-item.ux', name: 'todo-item' }],
+        prettify: false
+    });
+
+    expect(template).toEqual(`<import src="../todo-item/todo-item.ux" name="todo-item"></import>\r\n\r\n<template><div class="main-page">hi</div></template>`);
 })
