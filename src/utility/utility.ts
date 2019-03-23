@@ -76,3 +76,9 @@ export function uxPath(file_src: string, import_src: string)
         return relative(from, to).replace(/\\/g, "/");
     }
 }
+
+export function isDataModelKeyword(name: string)
+{
+    const keywords = new Set(["data", "props", "private", "protected", "public"]);
+    return keywords.has(name);
+}

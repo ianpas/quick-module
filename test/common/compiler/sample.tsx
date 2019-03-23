@@ -25,6 +25,8 @@ class Main implements IMain
 
     handleInput(e: QuickApp.ClickEvent)
     {
+        const foo = this.props.foo.foo;
+        const bar = this.data.bar;
         console.log(arguments);
     }
 }

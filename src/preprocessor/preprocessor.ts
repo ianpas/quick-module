@@ -1,5 +1,3 @@
-import { readFileSync, writeFileSync } from "fs";
-
 import { parse } from "@babel/parser";
 import generate from "@babel/generator";
 import traverse from "@babel/traverse";
@@ -12,6 +10,7 @@ import { jsxExpressionContainer, stringLiteral } from "@babel/types";
 /**
 * @param {string} jsx_code 需要预处理的jsx文件代码
 * @returns {string} 预处理后的jsx代码
+* @todo 把预处理的逻辑都放到tsx->jsx那一步可能更好？
 */
 export function preprocess(jsx_code: string)
 {
@@ -24,11 +23,7 @@ export function preprocess(jsx_code: string)
             {
                 const expression_type = path.node.expression.type;
                 const code = generate(path.node).code;
-                let expression = code.slice(1, code.length - 1).replace("this.", "");
-                if (isAccessingFromDataModel(expression))
-                {
-                    expression = expression.replace(`${getFirstObjectName(expression)}.`,"");
-                }
+                const expression = code.slice(1, code.length - 1).replace("this.", "");
 
                 if (expression_type === "MemberExpression" && path.parent.type === "JSXAttribute")
                 {
@@ -52,16 +47,4 @@ export function preprocess(jsx_code: string)
 
     const preprocessed = generate(ast).code;
     return preprocessed;
-}
-
-function isAccessingFromDataModel(expression:string): boolean
-{
-    const data_models = ["data","props","private","protected","public"];
-    const obj = getFirstObjectName(expression);
-    return data_models.includes(obj);
-}
-
-function getFirstObjectName(expression): string
-{
-    return expression.split(".")[0];
 }

@@ -6,8 +6,8 @@ import traverse from "@babel/traverse";
 import generate from "@babel/generator";
 import { parse } from "@babel/parser";
 
-import { toDashed, isUxModule, toUnderscored, isCssModule, combine } from "../utility/utility";
-import { Identifier, ObjectExpression, ObjectProperty, objectExpression, objectProperty, identifier } from "@babel/types";
+import { toDashed, isUxModule, toUnderscored, isCssModule, combine, isDataModelKeyword } from "../utility/utility";
+import { Identifier, ObjectExpression, ObjectProperty, objectExpression, objectProperty, identifier, MemberExpression } from "@babel/types";
 
 /**
  * 将tsx文件翻译为jsx
@@ -81,6 +81,15 @@ export function preprocessTsx(src: string)
                             (prop as ObjectProperty).value
                         )
                     ]);
+                }
+            }
+            else if (path.isThisExpression())
+            {
+                const parent_node = path.parentPath.node as MemberExpression;
+                const prop_name = parent_node.property.name;
+                if (isDataModelKeyword(prop_name))
+                {
+                    path.parentPath.replaceWithSourceString("this");
                 }
             }
         }

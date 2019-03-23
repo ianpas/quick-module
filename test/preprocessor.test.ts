@@ -13,14 +13,6 @@ test("JSXAttribute MemberExpression: this.method", () =>
     })
 })
 
-test("JSXAttribute MemberExpression: this.data-model.member", () =>
-{
-    assert({
-        input: `<input onChange={this.props.list}></input>`,
-        preprocessed: `<input onChange="{{list}}"></input>;`
-    })
-})
-
 test("JSXAttribute CallExpression", () =>
 {
     assert({
