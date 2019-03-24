@@ -1,4 +1,4 @@
-import todo_item from "../todo-item/todo-item.ux";
+import todo_item from "./todo-item/todo-item.ux";
 
 class Main {
   template() {

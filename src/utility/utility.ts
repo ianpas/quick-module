@@ -1,5 +1,6 @@
-import { dirname, resolve, relative } from "path";
+import { dirname, resolve, relative, basename } from "path";
 import * as findup from "findup-sync";
+import { existsSync } from "fs";
 
 /**
  * @see {@link https://gist.github.com/youssman/745578062609e8acac9f#gistcomment-2304728}
@@ -21,13 +22,24 @@ export function toUnderscored(name: string)
     return name.replace(/[A-Z]/g, "_$&").toLowerCase().slice(1)
 }
 
+
+export function absolutePath(tsx_src: string, import_src: string)
+{
+    const tsx_dir = dirname(tsx_src);
+    const target_relative_src = uxPath(tsx_src, import_src);
+    const abs_src = resolve(tsx_dir, target_relative_src);
+    return abs_src;
+}
+
 /**
  * 从import中的路径来判断要引入的模块是否为ux模块
- * @param {string} import_src 引入路径
+ * @param {string} abs_src 引入文件的绝对路径
  */
-export function isUxModule(import_src: string)
+export function isUxModule(abs_src: string)
 {
-    return import_src.endsWith(".tsx");
+    const tsx_path = abs_src.endsWith(".tsx") ? abs_src : `${abs_src}.tsx`;
+    console.log(tsx_path);
+    return existsSync(tsx_path);
 }
 
 /**
@@ -85,10 +97,10 @@ export function isDataModelKeyword(name: string)
 
 export function removeDataModelKeyword(name: string)
 {
-    const keywords = ["this.data.","this.props.","this.private.","this.protected.","this.public."];
-    for(const keyword of keywords)
+    const keywords = ["this.data.", "this.props.", "this.private.", "this.protected.", "this.public."];
+    for (const keyword of keywords)
     {
-        name = name.replace(keyword,"");
+        name = name.replace(keyword, "");
     }
     return name;
 }

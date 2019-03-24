@@ -2,7 +2,7 @@ import traverse from "@babel/traverse";
 import generate from "@babel/generator";
 import { parse } from "@babel/parser";
 
-import { isUxModule, isCssModule, uxPath } from "../utility/utility";
+import { isUxModule, isCssModule, uxPath, absolutePath } from "../utility/utility";
 import { stringLiteral, Identifier, variableDeclaration, variableDeclarator, identifier, newExpression } from "@babel/types";
 
 export type ModuleInfo = { src: string, name: string };
@@ -14,7 +14,7 @@ export type JsCompiledResult = { js_code: string, import_info: ImportInfo };
 * @param {string} src 提取目标，jsx代码
 * @returns {JsCompiledResult} 翻译后除了js代码，还返回引入ux，样式相关的信息
 */
-export function compileToJs(jsx_code: string, tsx_src:string): JsCompiledResult
+export function compileToJs(jsx_code: string, tsx_src: string): JsCompiledResult
 {
 
     //
@@ -48,11 +48,12 @@ export function compileToJs(jsx_code: string, tsx_src:string): JsCompiledResult
             {
                 const file_src = tsx_src;
                 const import_src = path.node.source.value;
+                const abs_src = absolutePath(file_src, import_src);
 
-                if (isUxModule(import_src))
+                if (isUxModule(abs_src))
                 {
                     ux_imported.push({
-                        src: uxPath(file_src, import_src).replace(".tsx",".ux"),
+                        src: uxPath(file_src, import_src).replace(".tsx", ".ux"),
                         name: path.node.specifiers[0].local.name.replace(/_/g, "-")
                     });
                     path.remove();

@@ -2,7 +2,7 @@
 import styles from "./main.css";
 
 // @ts-ignore
-import TodoItem from "../todo-item/todo-item.tsx";
+import TodoItem from "./todo-item/todo-item.tsx";
 
 export interface IMain extends QuickApp.IComponent
 {

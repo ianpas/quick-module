@@ -1,6 +1,6 @@
 import styles from "./main.css";
 
-import todo_item from "../todo-item/todo-item.tsx";
+import todo_item from "./todo-item/todo-item.tsx";
 
 class Main {
   template() {

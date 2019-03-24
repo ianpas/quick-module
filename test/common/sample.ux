@@ -1,4 +1,4 @@
-<import src="../todo-item/todo-item.ux" name="todo-item"></import>
+<import src="./todo-item/todo-item.ux" name="todo-item"></import>
 
 <template>
     <div class="main-page">

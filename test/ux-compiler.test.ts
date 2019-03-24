@@ -5,7 +5,7 @@ test("generate ux file code", () =>
 {
     const jsx_code = GetTestData("common/sample.jsx");
     const ux = compileToUx(jsx_code, TestDataPath("common/sample.tsx"), {
-        ux: [{ src: '../todo-item/todo-item.ux', name: 'todo-item' }],
+        ux: [{ src: './todo-item/todo-item.ux', name: 'todo-item' }],
         style: [{ src: './main.css', name: 'styles' }]
     });
 

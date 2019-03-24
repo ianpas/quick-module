@@ -6,7 +6,7 @@ import traverse from "@babel/traverse";
 import generate from "@babel/generator";
 import { parse } from "@babel/parser";
 
-import { toDashed, isUxModule, toUnderscored, isCssModule, combine, isDataModelKeyword, removeDataModelKeyword } from "../utility/utility";
+import { toDashed, isUxModule, toUnderscored, isCssModule, combine, isDataModelKeyword, removeDataModelKeyword, uxPath, absolutePath } from "../utility/utility";
 import { Identifier, ObjectExpression, ObjectProperty, objectExpression, objectProperty, identifier, MemberExpression, ArrowFunctionExpression, jsxElement, jsxOpeningElement, jsxIdentifier, jsxClosingElement, JSXElement, jsxExpressionContainer, stringLiteral, jsxAttribute } from "@babel/types";
 
 /**
@@ -157,7 +157,8 @@ export function preprocessTsx(src: string)
         {
             if (path.isImportDeclaration())
             {
-                if (isUxModule(path.node.source.value))
+                const abs_path = absolutePath(src, path.node.source.value);
+                if (isUxModule(abs_path))
                 {
                     path.node.specifiers[0].local.name = toUnderscored(path.node.specifiers[0].local.name);
                     path.node.leadingComments = [];
