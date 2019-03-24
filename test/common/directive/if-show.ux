@@ -1,0 +1,13 @@
+
+
+<template>
+    <div class="main-page">
+        <div class="city" if="{{showCityList === true}}" show="{{showCityList === true}}">
+        </div>
+    </div>
+</template>
+
+<script>
+    export { default } from "./if-show.js";
+</script>
+

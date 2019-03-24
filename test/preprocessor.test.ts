@@ -21,6 +21,14 @@ test("JSXAttribute CallExpression", () =>
     })
 })
 
+test("JSXAttribute Identifier: if or show", () =>
+{
+    assert({
+        input: ` <div class="city" if={this.private.showCityList === true} show={this.private.showCityList === true}></div>`,
+        preprocessed: `<div class="city" if="{{private.showCityList === true}}" show="{{private.showCityList === true}}"></div>;`
+    })
+})
+
 test("JSXElement MemberExpression", () =>
 {
     assert({
@@ -28,3 +36,4 @@ test("JSXElement MemberExpression", () =>
         preprocessed: `<text>{"{{todoContent}}"}</text>;`
     })
 })
+

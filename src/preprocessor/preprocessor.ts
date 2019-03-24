@@ -41,6 +41,14 @@ export function preprocess(jsx_code: string)
                 {
                     path.replaceWith(jsxExpressionContainer(stringLiteral(`${"{{"}${expression}${"}}"}`)));
                 }
+                else if (path.parent.type === "JSXAttribute")
+                {
+                    const attribute_name = path.parent.name.name;
+                    if (attribute_name === "if" || attribute_name === "show")
+                    {
+                        path.replaceWith(stringLiteral(`${"{{"}${expression}${"}}"}`));
+                    }
+                }
             }
         }
     });
