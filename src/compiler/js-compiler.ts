@@ -52,8 +52,10 @@ export function compileToJs(jsx_code: string, tsx_src: string): JsCompiledResult
 
                 if (isUxModule(abs_src))
                 {
+                    const ux_src = uxPath(file_src, import_src).replace(".tsx", ".ux");
+
                     ux_imported.push({
-                        src: uxPath(file_src, import_src).replace(".tsx", ".ux"),
+                        src: ux_src.endsWith(".ux") ? ux_src : `${ux_src}.ux`,
                         name: path.node.specifiers[0].local.name.replace(/_/g, "-")
                     });
                     path.remove();
