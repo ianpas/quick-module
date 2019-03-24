@@ -21,3 +21,15 @@ test("transform props", () =>
     const transformed = preprocessTsx(TestDataPath("common/props.tsx"));
     expect(transformed).toEqual(GetTestData("common/props.jsx"));
 })
+
+test("transform map to for-directive single param", () =>
+{
+    const transformed = preprocessTsx(TestDataPath("common/directive/map-to-for.tsx"));
+    expect(transformed).toEqual(GetTestData("common/directive/map-to-for.jsx"));
+})
+
+test("transform map to for-directive two params", () =>
+{
+    const transformed = preprocessTsx(TestDataPath("common/directive/map-to-for-2.tsx"));
+    expect(transformed).toEqual(GetTestData("common/directive/map-to-for-2.jsx"));
+})

@@ -80,7 +80,7 @@ export function preprocessTsx(src: string)
                     //
                     const arrow_function = expression.arguments[0] as ArrowFunctionExpression;
                     const [value_param, index_param] = arrow_function.params.map(param => (param as Identifier).name);
-                    const for_directive = `(${index_param},${value_param}) in ${callee}`;
+                    const for_directive = index_param ? `(${index_param},${value_param}) in ${callee}` : `${value_param} in ${callee}`;
 
                     path.replaceWith(jsxElement(
                         jsxOpeningElement(jsxIdentifier("block"), [jsxAttribute(jsxIdentifier("for"), stringLiteral(for_directive))]),
