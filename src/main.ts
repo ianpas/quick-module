@@ -3,6 +3,8 @@ import { compile } from "./index";
 import * as watch from "node-watch";
 import * as program from "commander";
 import { resolve } from "path";
+import * as traverse from "filewalker";
+import * as isDirectory from "is-directory";
 
 program.version("0.0.1")
     .option("-c, --compile <file_name>", "compile tsx file")
@@ -12,7 +14,20 @@ program.version("0.0.1")
 if (program.compile)
 {
     const absolute_path = resolvePath(program.compile);
-    compile(absolute_path);
+    if (isDirectory.sync(absolute_path))
+    {
+        traverse(absolute_path).on("file", (relative, stats, absolute) =>
+        {
+            if (absolute.endsWith(".tsx"))
+            {
+                compile(absolute);
+            }
+        }).walk();
+    }
+    else
+    {
+        compile(absolute_path);
+    }
 }
 else if (program.watch)
 {
@@ -35,14 +50,17 @@ else if (program.watch)
     })
 }
 
-function resolvePath(file_name: string)
+
+/**
+ * utility
+ */
+
+function isRelative(target: string)
 {
-    if (file_name.startsWith("./") || file_name.startsWith("../"))
-    {
-        return resolve(process.cwd(), file_name);
-    }
-    else
-    {
-        return file_name;
-    }
+    return target.startsWith("./") || target.startsWith("../");
+}
+
+function resolvePath(target: string)
+{
+    return isRelative(target) ? resolve(process.cwd(), target) : target;
 }

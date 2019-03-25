@@ -25,6 +25,7 @@ Options:
 
 ```
   qmc -c ./demo.tsx 翻译demo.tsx文件
+  qmc -c ./src 翻译src目录下所有tsx文件
   qmc -w ./demo.tsx 监控demo.tsx文件，有变动就翻译它
   qmc -w ./src 监控src目录下所有tsx文件，翻译变动的文件
 ```
