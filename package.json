@@ -1,7 +1,8 @@
 {
   "name": "quick-module",
   "version": "0.0.3",
-  "description": "module solution for quickapp, with typescript",
+  "keywords": ["quickapp","hap","typescript","jsx"],
+  "description": "module compiler for quickapp, generate ux&js from tsx",
   "main": "./build/index.js",
   "scripts": {
     "test": "jest",

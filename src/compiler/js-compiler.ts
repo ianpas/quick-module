@@ -43,6 +43,25 @@ export function compileToJs(jsx_code: string, tsx_src: string): JsCompiledResult
                         newExpression(identifier(class_name), [])
                     )
                 ]));
+
+                /**
+                 * 坑：一个非常坑的事情是，使用new创建的对象，那些方法不是挂在对象实例上，而是__proto__上
+                 * 但快应用会把返回实例的__proto__改造，这样就会丢失原来的方法
+                 * 解决方法是把那些方法挪到返回的对象实例上
+                 */
+
+                const move_methods_str = `
+                    const props = Object.getOwnPropertyNames(${class_name}.prototype);
+                    props.forEach(prop =>
+                    {
+                    if (prop !== "constructor")
+                    {
+                        __INSTANCE__[prop] = __INSTANCE__.__proto__[prop];
+                    }
+                    })
+                 `;
+                const move_methods_node = parse(move_methods_str, { sourceType: "script" });
+                path.insertBefore(move_methods_node)
             }
             else if (path.isImportDeclaration())
             {
