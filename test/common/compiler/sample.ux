@@ -5,7 +5,7 @@
         <div class="input">
             <input class="input-text" type="checkbox" onclick="{{handleInput}}">
             </input>
-            <todo-item>
+            <todo-item prop="test">
             </todo-item>
         </div>
     </div>

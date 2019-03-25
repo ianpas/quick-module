@@ -38,7 +38,6 @@ export function absolutePath(tsx_src: string, import_src: string)
 export function isUxModule(abs_src: string)
 {
     const tsx_path = abs_src.endsWith(".tsx") ? abs_src : `${abs_src}.tsx`;
-    console.log(tsx_path);
     return existsSync(tsx_path);
 }
 

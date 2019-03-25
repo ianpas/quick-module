@@ -36,7 +36,8 @@ export function compileToUx(jsx_code: string, tsx_src: string, import_info: Impo
 export function compileTemplate({ preprocessed, ux_imported, prettify = true }: { preprocessed: string, ux_imported: Array<ModuleInfo>, prettify?: boolean })
 {
     const ux_refs = generateUxRefs(ux_imported);
-    const template = generateTemplate(generateVdom(preprocessed));
+    const vdom = generateVdom(preprocessed);
+    const template = generateTemplate(vdom);
     const prettified = prettify ? formatXml(template, { collapseContent: true }) : template;
     return combine(ux_refs, prettified);
 }

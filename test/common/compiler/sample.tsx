@@ -13,11 +13,14 @@ class Main implements IMain
 {
     template()
     {
+        /**
+         * 注意prop中字符串插值的写法
+         */
         return (
             <div class="main-page">
                 <div class="input">
                     <input class="input-text" type="checkbox" onclick={this.handleInput}></input>
-                    <TodoItem></TodoItem>
+                    <TodoItem prop={`${"test"}`}></TodoItem>
                 </div>
             </div>
         );
