@@ -1,6 +1,6 @@
 {
   "name": "quick-module",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "module solution for quickapp, with typescript",
   "main": "./build/index.js",
   "scripts": {
