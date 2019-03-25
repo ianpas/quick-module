@@ -30,7 +30,7 @@ class Main implements IMain
     {
         const foo = this.props.foo.foo;
         const bar = this.data.bar;
-        console.log(arguments);
+        console.log(this);
     }
 }
 

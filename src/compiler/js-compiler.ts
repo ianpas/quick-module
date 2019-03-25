@@ -54,10 +54,10 @@ export function compileToJs(jsx_code: string, tsx_src: string): JsCompiledResult
                     const props = Object.getOwnPropertyNames(${class_name}.prototype);
                     props.forEach(prop =>
                     {
-                    if (prop !== "constructor")
-                    {
-                        __INSTANCE__[prop] = __INSTANCE__.__proto__[prop];
-                    }
+                        if (prop !== "constructor")
+                        {
+                            __INSTANCE__[prop] = __INSTANCE__.__proto__[prop];
+                        }
                     })
                  `;
                 const move_methods_node = parse(move_methods_str, { sourceType: "script" });

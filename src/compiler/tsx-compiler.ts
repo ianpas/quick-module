@@ -115,7 +115,7 @@ export function preprocessTsx(src: string)
                     ]);
                 }
             }
-            else if (path.isThisExpression())
+            else if (path.isThisExpression() && path.parentPath.node.type === "MemberExpression")
             {
                 const parent_node = path.parentPath.node as MemberExpression;
                 const prop_name = parent_node.property.name;
