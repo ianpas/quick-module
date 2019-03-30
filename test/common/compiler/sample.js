@@ -1,4 +1,10 @@
 class Main {
+  constructor() {
+    this.private = {
+      cityClassName: "popular"
+    };
+  }
+
   handleInput(e) {
     const foo = this.foo.foo;
     const bar = this.bar;

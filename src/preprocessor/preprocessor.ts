@@ -25,7 +25,17 @@ export function preprocess(jsx_code: string)
                 const code = generate(path.node).code;
                 const expression = code.slice(1, code.length - 1).replace("this.", "");
 
-                if (expression_type === "MemberExpression" && path.parent.type === "JSXAttribute")
+                if (expression_type === "TemplateLiteral")
+                {
+                    /**
+                     * @todo
+                     */
+
+                    const result = expression.replace(/\$\{/g, '{{').replace(/\}/g, '}}').replace(/`/g,"");
+                    path.replaceWith(jsxExpressionContainer(stringLiteral(result)));
+
+                }
+                else if (expression_type === "MemberExpression" && path.parent.type === "JSXAttribute")
                 {
                     /**
                      * 回调函数的话，{{}}可以省略，这样可以一致处理使用this访问数据和函数
@@ -49,6 +59,7 @@ export function preprocess(jsx_code: string)
                         path.replaceWith(stringLiteral(`${"{{"}${expression}${"}}"}`));
                     }
                 }
+
             }
         }
     });

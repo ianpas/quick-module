@@ -11,6 +11,9 @@ export interface IMain extends QuickApp.IComponent
 
 class Main implements IMain
 {
+    private = {
+        cityClassName: "popular"
+    }
     template()
     {
         /**
@@ -18,17 +21,17 @@ class Main implements IMain
          */
         return (
             <div class="main-page">
-                <div class="input">
-                    <input class="input-text" type="checkbox" onclick={this.handleInput}></input>
-                    <TodoItem prop={`${"test"}`}></TodoItem>
-                </div>
                 <div class="if-show">
-                    <div class="city" if={this.private.showCityList === true} show={this.private.showCityList === true}>
+                    <div class={`city ${this.private.cityClassName}`} if={this.private.showCityList === true} show={this.private.showCityList === true}>
                     </div>
                     <div elif={this.private.showCityList === true}>
                     </div>
                     <div else>
                     </div>
+                </div>
+                <div class="input">
+                    <input class="input-text" type="checkbox" onclick={this.handleInput}></input>
+                    <TodoItem prop={`${"test"}`}></TodoItem>
                 </div>
             </div>
         );

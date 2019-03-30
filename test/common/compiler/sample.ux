@@ -1,6 +1,6 @@
 <import src="../todo-item/todo-item.ux" name="todo-item"></import>
 
-<template><div class="main-page"><div class="input"><input class="input-text" type="checkbox" onclick="{{handleInput}}"></input><todo-item prop="test"></todo-item></div><div class="if-show"><div class="city" if="{{showCityList === true}}" show="{{showCityList === true}}"></div><div elif="{{showCityList === true}}"></div><div else></div></div></div></template>
+<template><div class="main-page"><div class="if-show"><div class="city {{cityClassName}}" if="{{showCityList === true}}" show="{{showCityList === true}}"></div><div elif="{{showCityList === true}}"></div><div else></div></div><div class="input"><input class="input-text" type="checkbox" onclick="{{handleInput}}"></input><todo-item prop="{{"test"}}"></todo-item></div></div></template>
 
 <script>
     export { default } from "./sample.js";
