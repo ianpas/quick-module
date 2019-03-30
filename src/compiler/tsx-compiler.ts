@@ -7,7 +7,7 @@ import generate from "@babel/generator";
 import { parse } from "@babel/parser";
 
 import { toDashed, isUxModule, toUnderscored, isCssModule, combine, isDataModelKeyword, removeDataModelKeyword, uxPath, absolutePath } from "../utility/utility";
-import { Identifier, ObjectExpression, ObjectProperty, objectExpression, objectProperty, identifier, MemberExpression, ArrowFunctionExpression, jsxElement, jsxOpeningElement, jsxIdentifier, jsxClosingElement, JSXElement, jsxExpressionContainer, stringLiteral, jsxAttribute } from "@babel/types";
+import { Identifier, ObjectExpression, ObjectProperty, objectExpression, objectProperty, identifier, MemberExpression, ArrowFunctionExpression, jsxElement, jsxOpeningElement, jsxIdentifier, jsxClosingElement, JSXElement, jsxExpressionContainer, stringLiteral, jsxAttribute, JSXAttribute, JSXExpressionContainer } from "@babel/types";
 
 /**
  * 将tsx文件翻译为jsx
@@ -79,11 +79,30 @@ export function preprocessTsx(src: string)
 
                     //
                     const arrow_function = expression.arguments[0] as ArrowFunctionExpression;
+
                     const [value_param, index_param] = arrow_function.params.map(param => (param as Identifier).name);
                     const for_directive = index_param ? `(${index_param},${value_param}) in ${callee}` : `${value_param} in ${callee}`;
 
+                    let key = "";
+
+                    for (const attribute of (arrow_function.body as JSXElement).openingElement.attributes)
+                    {
+                        if ((attribute as JSXAttribute).name.name === "key")
+                        {
+                            key = generate(((attribute as JSXAttribute).value as JSXExpressionContainer).expression).code;
+                            key = key.replace(`${value_param}.`, "");
+                            break;
+                        }
+                    }
+
+                    const jsx_attributes = [jsxAttribute(jsxIdentifier("for"), stringLiteral(for_directive))];
+                    if (key)
+                    {
+                        jsx_attributes.push(jsxAttribute(jsxIdentifier("tid"), stringLiteral(key)));
+                    }
+
                     path.replaceWith(jsxElement(
-                        jsxOpeningElement(jsxIdentifier("block"), [jsxAttribute(jsxIdentifier("for"), stringLiteral(for_directive))]),
+                        jsxOpeningElement(jsxIdentifier("block"), jsx_attributes),
                         jsxClosingElement(jsxIdentifier("block")),
                         [arrow_function.body as JSXElement], false
                     ));
@@ -91,6 +110,19 @@ export function preprocessTsx(src: string)
                 else if (expression.type === "Identifier")
                 {
                     path.replaceWith(jsxExpressionContainer(stringLiteral(`${"{{"}${generate(expression).code}${"}}"}`)));
+                }
+            }
+        }
+    });
+
+    traverse(tsx_ast, {
+        enter(path)
+        {
+            if (path.isJSXAttribute())
+            {
+                if (path.node.name.name === "key")
+                {
+                    path.remove();
                 }
             }
         }

@@ -33,3 +33,10 @@ test("transform map to for-directive two params", () =>
     const transformed = preprocessTsx(TestDataPath("common/directive/map-to-for-2.tsx"));
     expect(transformed).toEqual(GetTestData("common/directive/map-to-for-2.jsx"));
 })
+
+test("transform map to for-directive with key", () =>
+{
+    const transformed = preprocessTsx(TestDataPath("common/directive/map-to-for-3.tsx"));
+    writeFileSync(TestDataPath("common/directive/map-to-for-3.jsx"), transformed);
+    expect(transformed).toEqual(GetTestData("common/directive/map-to-for-3.jsx"));
+})
