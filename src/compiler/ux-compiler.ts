@@ -2,9 +2,6 @@ import { generateUxRefs, generateJsRef, generateStyleRef } from "../generator/re
 import { generateVdom } from "../generator/vdom-generator";
 import { generateTemplate } from "../generator/template-generator";
 
-import { readFileSync } from "fs";
-
-import * as formatXml from "xml-formatter";
 import { ModuleInfo, ImportInfo } from "./js-compiler";
 import { combine } from "../utility/utility";
 import { preprocess } from "../preprocessor/preprocessor";
@@ -33,11 +30,10 @@ export function compileToUx(jsx_code: string, tsx_src: string, import_info: Impo
  * @param {string} preprocessed 预处理后的jsx代码
  */
 
-export function compileTemplate({ preprocessed, ux_imported, prettify = true }: { preprocessed: string, ux_imported: Array<ModuleInfo>, prettify?: boolean })
+export function compileTemplate({ preprocessed, ux_imported}: { preprocessed: string, ux_imported: Array<ModuleInfo>, prettify?: boolean })
 {
     const ux_refs = generateUxRefs(ux_imported);
     const vdom = generateVdom(preprocessed);
     const template = generateTemplate(vdom);
-    const prettified = prettify ? formatXml(template, { collapseContent: true }) : template;
-    return combine(ux_refs, prettified);
+    return combine(ux_refs, template);
 }

@@ -12,7 +12,7 @@
   "scripts": {
     "test": "jest",
     "build": "gulp build",
-    "release": "npm run build && npm version patch && npm publish"
+    "release": "npm run build && npm publish"
   },
   "files": [
     "build"
@@ -36,8 +36,7 @@
     "findup-sync": "^3.0.0",
     "is-directory": "^0.3.1",
     "node-watch": "^0.6.0",
-    "require-from-string": "^2.0.2",
-    "xml-formatter": "^1.1.0"
+    "require-from-string": "^2.0.2"
   },
   "devDependencies": {
     "@types/jest": "^24.0.11",

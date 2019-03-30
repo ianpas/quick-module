@@ -40,7 +40,15 @@ function generateProps(props: { [index: string]: string | number })
     {
         const prop_key = genearateKey(key);
         const prop_value = generateValue(props[key]);
-        prop_list.push(`${prop_key}=${prop_value}`);
+
+        if(prop_key==="else")
+        {
+            prop_list.push(`${prop_key}`);
+        }
+        else
+        {
+            prop_list.push(`${prop_key}=${prop_value}`);
+        }
     }
     return prop_list.join(" ");
 }

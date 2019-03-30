@@ -22,6 +22,14 @@ class Main implements IMain
                     <input class="input-text" type="checkbox" onclick={this.handleInput}></input>
                     <TodoItem prop={`${"test"}`}></TodoItem>
                 </div>
+                <div class="if-show">
+                    <div class="city" if={this.private.showCityList === true} show={this.private.showCityList === true}>
+                    </div>
+                    <div elif={this.private.showCityList === true}>
+                    </div>
+                    <div else>
+                    </div>
+                </div>
             </div>
         );
     }

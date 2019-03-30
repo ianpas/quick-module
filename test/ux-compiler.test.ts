@@ -1,5 +1,7 @@
 import { TestDataPath, GetTestData } from "./utility/utility";
 import { compileToUx, compileTemplate } from "../src";
+import { writeFileSync } from "fs";
+import { resolve } from "path";
 
 test("generate ux file code", () =>
 {
@@ -9,6 +11,7 @@ test("generate ux file code", () =>
         style: [{ src: './main.css', name: 'styles' }]
     });
 
+    writeFileSync(TestDataPath("common/sample.ux"),ux);
     expect(ux).toEqual(GetTestData("common/sample.ux"));
 })
 
