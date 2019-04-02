@@ -17,7 +17,8 @@ class Main implements IMain
     template()
     {
         /**
-         * 注意prop中字符串插值的写法
+         * 注意TodoItem, prop中字符串插值的写法
+         * @todo 改进字符串插值
          */
         return (
             <div class="main-page">
