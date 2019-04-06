@@ -7,7 +7,7 @@
 
 # 详细文档
 
-详细文档请访问：https://ianpas.github.io/quick-ts/guide/
+详细文档请访问：[https://ianpas.github.io/quick-ts](https://ianpas.github.io/quick-ts)
 
 # 开源许可证
 MIT
